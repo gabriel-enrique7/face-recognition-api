@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize")
 const connection = require("../db/connection")
 
-const Admin = connection.define("admin", {
+const User = connection.define("user", {
     name: {
         type: Sequelize.STRING(100),
         allowNull: false
@@ -13,10 +13,14 @@ const Admin = connection.define("admin", {
     password: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    photo_path: {
+        type: Sequelize.STRING,
+        allowNull: true
     }
 
-}, { createdAt: false, updatedAt: false });
+}, { updatedAt: false });
 
 
-Admin.sync({ force: false })
-module.exports = Admin
+User.sync({ force: false })
+module.exports = User

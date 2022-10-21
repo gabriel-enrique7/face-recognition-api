@@ -3,7 +3,7 @@ const cors = require("cors")
 const bodyParser = require("body-parser")
 const connection = require("./db/connection")
 
-const Admin = require("./model/Admin")
+const User = require("./model/User")
 
 const app = express()
 
