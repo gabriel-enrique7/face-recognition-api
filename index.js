@@ -4,6 +4,7 @@ const bodyParser = require("body-parser")
 const connection = require("./db/connection")
 
 const User = require("./model/User")
+const Classroom = require("./model/Classroom")
 
 const app = express()
 
@@ -19,6 +20,8 @@ app.use(bodyParser.json())
 connection.authenticate()
     .then(() => console.log("Database MySQL has been connected"))
     .catch(error => console.log(error))
+
+connection.sync()
 
 
 app.get("/", (req, res) => {
