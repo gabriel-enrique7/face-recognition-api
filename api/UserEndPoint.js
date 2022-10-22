@@ -188,6 +188,7 @@ router.put("/photo/:userId", async (req, res) => {
 
         if(!user) {
             res.status(404).end();
+            fs.unlinkSync(req.file.path)
 
         } else if(user.photo_path) {
             fs.unlinkSync(user.photo_path)
@@ -255,6 +256,15 @@ router.delete("/:userId", async (req, res) => {
     const userId = req.params.userId;
 
     try {
+        const user = await User.findOne({ where: { id: userId } });
+
+        if(!user) {
+            res.status(404).end()
+        
+        } else if (user.photo_path) {
+            fs.unlinkSync(user.photo_path)
+        }
+
         await User.destroy({ where: { id: userId } })
         res.status(200).end()
 
