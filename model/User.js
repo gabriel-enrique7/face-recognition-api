@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize")
 const connection = require("../db/connection")
 
+const ClassroomUser = require("./ClassroomUser")
+
 const User = connection.define("user", {
     name: {
         type: Sequelize.STRING(100),
@@ -19,6 +21,13 @@ const User = connection.define("user", {
         allowNull: true
     }
 
-}, { updatedAt: false });
+}, {
+    updatedAt: false,
+    hooks: {
+        afterDestroy: (user, options) => {
+            ClassroomUser.destroy({ where: { id_user: user.id } })
+        }
+    }
+});
 
 module.exports = User

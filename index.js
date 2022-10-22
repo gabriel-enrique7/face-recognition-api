@@ -7,6 +7,7 @@ const User = require("./model/User")
 const Classroom = require("./model/Classroom")
 
 const UserEndPoint = require("./api/UserEndPoint")
+const ClassroomEndPoint = require("./api/ClassroomEndPoint")
 
 const app = express()
 
@@ -28,6 +29,7 @@ connection.sync()
 
 
 app.use("/api/user", UserEndPoint)
+app.use("/api/classroom", ClassroomEndPoint)
 
 
 app.get("/", (req, res) => {

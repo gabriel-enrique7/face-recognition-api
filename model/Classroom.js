@@ -19,7 +19,14 @@ const Classroom = connection.define("classroom", {
         allowNull: true
     }
 
-}, { id: false, updatedAt: false });
+}, {
+    id: false, updatedAt: false,
+    hooks: {
+        afterDestroy: (classroom, options) => {
+            ClassroomUser.destroy({ where: { code_classroom: classroom.code } })
+        }
+    }
+});
 
 Classroom.belongsToMany(User, {
     through: {
