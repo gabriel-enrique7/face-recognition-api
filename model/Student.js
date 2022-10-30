@@ -1,20 +1,21 @@
 const Sequelize = require("sequelize")
 const connection = require("../db/connection")
 
-const User = connection.define("user", {
+const Student = connection.define("student", {
     name: {
         type: Sequelize.STRING(100),
         allowNull: false
     },
-    email: {
-        type: Sequelize.STRING(50),
+    registration: {
+        type: Sequelize.STRING(10),
+        unique: true,
         allowNull: false
     },
-    password: {
+    photo_path: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     }
 
 }, { updatedAt: false });
 
-module.exports = User
+module.exports = Student

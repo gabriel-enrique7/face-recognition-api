@@ -1,42 +1,36 @@
 const router = require("express").Router()
 const verifyToken = require("../middlewares/verifyToken")
 
-const Classroom = require("../model/Classroom")
+const Classroom = require("../model/Classroom");
+const Student = require("../model/Student");
 const User = require("../model/User")
 
-router.post("/", async (req, res) => {
-    const { name, description } = req.body;
+router.post("/", verifyToken, async (req, res) => {
+    const { name, description, idUser } = req.body;
 
-    if(name) {
+    if(name && idUser) {
         try {
-
-            const code = Math.random().toString(36).substring(2, 10)
-
-            const classroom = await Classroom.create({
-                code,
+            await Classroom.create({
                 name,
-                description
+                description,
+                id_user: idUser
             });
 
-            res.status(200).json({
-                msg: "Turma criada com sucesso",
-                code: code
-            });
+            res.status(200).json({ msg: "Turma criada com sucesso" });
 
         } catch { res.status(500).end() }
     }
     res.status(400).end()
 });
 
-router.put("/:classroomCode", async (req, res) => {
+router.put("/:id", verifyToken, async (req, res) => {
     const { name, description } = req.body;
 
-    const classroomCode = req.params.classroomCode;
+    const id = req.params.id;
 
     if(name) {
         try {
-
-            await Classroom.update({ name, description }, { where: { code: classroomCode } });
+            await Classroom.update({ name, description }, { where: { id: id } });
             res.status(200).end()
 
         } catch { res.status(500).end() }
@@ -44,20 +38,12 @@ router.put("/:classroomCode", async (req, res) => {
     res.status(400).end()
 });
 
-router.get("/:classroomCode", async (req, res) => {
-    const classroomCode = req.params.classroomCode;
+router.get("/student/:id", verifyToken, async (req, res) => {
+    const id = req.params.id;
 
     try {
-        const classroom = await Classroom.findByPk(classroomCode, {
-            include: [{
-                model: User,
-                attributes: [
-                    "id",
-                    "name",
-                    "photo_path",
-                    "createdAt"
-                ]
-            }]
+        const classroom = await Classroom.findByPk(id, {
+            include: Student
         });
 
         if(classroom) res.status(200).json(classroom)
@@ -66,11 +52,11 @@ router.get("/:classroomCode", async (req, res) => {
     } catch { res.status(500).end() }
 });
 
-router.delete("/:classroomCode", async (req, res) => {
-    const classroomCode = req.params.classroomCode;
+router.delete("/:id", verifyToken, async (req, res) => {
+    const id = req.params.id;
 
     try {
-        Classroom.destroy({ where: { code: classroomCode } });
+        await Classroom.destroy({ where: { id: id } });
         res.status(200).end()
 
     } catch { res.status(500).end() }

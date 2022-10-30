@@ -2,14 +2,10 @@ const Sequelize = require("sequelize")
 const connection = require("../db/connection");
 
 const User = require("./User");
-const ClassroomUser = require("./ClassroomUser");
+const Student = require("./Student");
+const ClassroomStudent = require("./ClassroomStudent");
 
 const Classroom = connection.define("classroom", {
-    code: {
-        type: Sequelize.STRING(10),
-        primaryKey: true,
-        allowNull: false
-    },
     name: {
         type: Sequelize.STRING,
         allowNull: false
@@ -20,34 +16,39 @@ const Classroom = connection.define("classroom", {
     }
 
 }, {
-    id: false, updatedAt: false,
+    updatedAt: false,
     hooks: {
         afterDestroy: (classroom, options) => {
-            ClassroomUser.destroy({ where: { code_classroom: classroom.code } })
+            ClassroomStudent.destroy({ where: { id_classroom: classroom.id } })
         }
     }
 });
 
-Classroom.belongsToMany(User, {
-    through: {
-        model: ClassroomUser
-    },
-    foreignKey: "code_classroom",
-    constraint: true
-});
-
-User.belongsToMany(Classroom, {
-    through: {
-        model: ClassroomUser
-    },
+User.hasMany(Classroom, {
     foreignKey: "id_user",
     constraint: true
 });
 
+Classroom.belongsToMany(Student, {
+    through: {
+        model: ClassroomStudent
+    },
+    foreignKey: "id_classroom",
+    constraint: true
+});
+
+Student.belongsToMany(Classroom, {
+    through: {
+        model: ClassroomStudent
+    },
+    foreignKey: "id_student",
+    constraint: true
+});
+
 // Super Many-to-Many Relationship
-Classroom.hasMany(ClassroomUser, { foreignKey: "code_classroom" })
-ClassroomUser.belongsTo(Classroom, { foreignKey: "code_classroom" })
-User.hasMany(ClassroomUser, { foreignKey: "id_user" })
-ClassroomUser.belongsTo(User, { foreignKey: "id_user" })
+Classroom.hasMany(ClassroomStudent, { foreignKey: "id_classroom" })
+ClassroomStudent.belongsTo(Classroom, { foreignKey: "id_classroom" })
+Student.hasMany(ClassroomStudent, { foreignKey: "id_student" })
+ClassroomStudent.belongsTo(Student, { foreignKey: "id_student" })
 
 module.exports = Classroom

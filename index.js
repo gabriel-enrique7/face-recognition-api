@@ -4,9 +4,13 @@ const bodyParser = require("body-parser")
 const connection = require("./db/connection")
 
 const User = require("./model/User")
+const Admin = require("./model/Admin")
+const Student = require("./model/Student")
 const Classroom = require("./model/Classroom")
 
 const UserEndPoint = require("./api/UserEndPoint")
+const AdminEndPoint = require("./api/AdminEndPoint")
+const StudentEndPoint = require("./api/StudentEndPoint")
 const ClassroomEndPoint = require("./api/ClassroomEndPoint")
 
 const app = express()
@@ -29,6 +33,8 @@ connection.sync()
 
 
 app.use("/api/user", UserEndPoint)
+app.use("/api/admin", AdminEndPoint)
+app.use("/api/student", StudentEndPoint)
 app.use("/api/classroom", ClassroomEndPoint)
 
 

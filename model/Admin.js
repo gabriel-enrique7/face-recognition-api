@@ -1,12 +1,12 @@
 const Sequelize = require("sequelize")
 const connection = require("../db/connection")
 
-const User = connection.define("user", {
+const Admin = connection.define("admin", {
     name: {
         type: Sequelize.STRING(100),
         allowNull: false
     },
-    email: {
+    username: {
         type: Sequelize.STRING(50),
         allowNull: false
     },
@@ -17,4 +17,4 @@ const User = connection.define("user", {
 
 }, { updatedAt: false });
 
-module.exports = User
+module.exports = Admin
