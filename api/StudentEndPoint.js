@@ -164,7 +164,9 @@ router.get("/confirm/:registration", verifyToken, async (req, res) => {
             res.status(404).end()
         }
 
-        res.status(200).end()
+        res.status(200).json({
+            id: student.id
+        });
 
     } catch { res.status(500).end() }
 });

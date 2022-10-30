@@ -17,4 +17,4 @@ const User = connection.define("user", {
 
 }, { updatedAt: false });
 
-module.exports = User
+module.exports = User;

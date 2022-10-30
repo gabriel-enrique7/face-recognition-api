@@ -51,4 +51,4 @@ ClassroomStudent.belongsTo(Classroom, { foreignKey: "id_classroom" })
 Student.hasMany(ClassroomStudent, { foreignKey: "id_student" })
 ClassroomStudent.belongsTo(Student, { foreignKey: "id_student" })
 
-module.exports = Classroom
+module.exports = Classroom;

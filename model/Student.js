@@ -18,4 +18,4 @@ const Student = connection.define("student", {
 
 }, { updatedAt: false });
 
-module.exports = Student
+module.exports = Student;
