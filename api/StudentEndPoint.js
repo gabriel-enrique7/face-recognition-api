@@ -154,6 +154,14 @@ router.put("/photo/:id", verifyToken, async (req, res) => {
     } catch { res.status(500).end() }
 });
 
+router.get("/", verifyToken, async (req, res) => {
+    try {
+        const students = await Student.findAll();
+        res.status(200).json(students);
+
+    } catch { res.status(500).end() }
+});
+
 router.get("/confirm/:registration", verifyToken, async (req, res) => {
     const registration = req.params.registration;
 
@@ -165,7 +173,11 @@ router.get("/confirm/:registration", verifyToken, async (req, res) => {
         }
 
         res.status(200).json({
-            id: student.id
+            id: student.id,
+            name: student.name,
+            registration: student.registration,
+            photo_path: student.photo_path,
+            createdAt: student.createdAt
         });
 
     } catch { res.status(500).end() }
