@@ -58,7 +58,7 @@ router.post("/authenticate", async (req, res) => {
                         id: user.id,
                         name: user.name,
                         email: user.email,
-                        createdAt: user.createAt,
+                        createdAt: user.createdAt,
                         token: token
                     });
                 }
