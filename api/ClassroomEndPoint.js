@@ -3,7 +3,6 @@ const verifyToken = require("../middlewares/verifyToken")
 
 const Classroom = require("../model/Classroom");
 const Student = require("../model/Student");
-const User = require("../model/User")
 
 router.post("/", verifyToken, async (req, res) => {
     const { name, description, idUser } = req.body;

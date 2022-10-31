@@ -86,6 +86,14 @@ router.put("/:id", verifyToken, async (req, res) => {
     res.status(400).end()
 });
 
+router.get("/", verifyToken, async (req, res) => {
+    try {
+        const users = await User.findAll();
+        res.status(200).json(users);
+
+    } catch { res.status(500).end() }
+});
+
 router.get("/classroom/:id", verifyToken, async (req, res) => {
     const id = req.params.id;
 
